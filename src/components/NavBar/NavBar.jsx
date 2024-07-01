@@ -85,7 +85,6 @@ export default function NavBar() {
             </Menu>
           </Box>
           <Image src={SCDALogo} alt="Santa Cruz Darts Logo" width={"8rem"} />
-
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {pages.map((page) => (
               <Button
