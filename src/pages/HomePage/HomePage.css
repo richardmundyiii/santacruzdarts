@@ -37,6 +37,19 @@
   font-size: 5rem;
 }
 
+.calendar-section {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem 0 4rem 0;
+  height: auto;
+}
+
+.homepage-carousel-wrapper {
+  width: 100%;
+}
+
 @media (max-width: 768px) {
   .homepage-splash {
     display: none;
