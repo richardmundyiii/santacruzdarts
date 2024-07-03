@@ -3,6 +3,7 @@ const path = require("path");
 const logger = require("morgan");
 
 require("dotenv").config();
+require("./config/database");
 
 const app = express();
 
