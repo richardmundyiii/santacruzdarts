@@ -9,10 +9,13 @@
   top: 0;
   width: 15vw;
   height: 100%;
+  display: flex;
   background-color: gray;
   color: black;
+  justify-content: center;
+  align-items: center;
 }
 
-.admin-nav-wrapper li {
-  color: black;
+.admin-nav-items {
+  font-size: 10rem;
 }
