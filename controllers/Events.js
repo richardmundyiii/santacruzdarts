@@ -26,19 +26,30 @@ async function createEvent(req, res) {
 }
 
 async function updateEvent(req, res) {
+  const { id } = req.params;
+  const { title, details, date } = req.body;
+
   try {
-    const updateEvent = await Event.findOneAndUpdate(req.params.id, req.body, {
-      new: true,
-    });
-    res.status(200).json(updateEvent);
+    const updatedEvent = await Event.findOneAndUpdate(
+      { _id: id },
+      { title, details, date },
+      { new: true }
+    );
+
+    if (!updatedEvent) {
+      return res.status(404).json({ error: "Event not found" });
+    }
+
+    res.status(200).json(updatedEvent);
   } catch (error) {
-    res.status(400).json(error);
+    console.error("Error updating event:", error);
+    res.status(400).json({ error: "Failed to update event" });
   }
 }
 
 async function deleteEvent(req, res) {
   try {
-    const deletePost = await Event.findOneAndReplace({ _id: req.params.id });
+    const deletePost = await Event.findOneAndDelete({ _id: req.params.id });
     res.status(200).json(deletePost);
   } catch (error) {
     res.status(400).json(error);

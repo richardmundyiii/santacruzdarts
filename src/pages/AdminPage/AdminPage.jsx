@@ -12,17 +12,6 @@ import "./AdminPage.css";
 
 export default function AdminPage() {
   const [selectedComponent, setSelectedComponent] = useState("dashboard");
-  const [events, setEvents] = useState([]);
-
-  useEffect(() => {
-    async function getAllEvents() {
-      const events = await EventApi.getAllEvents();
-      setEvents(events);
-    }
-
-    getAllEvents();
-  }, []);
-  console.log(events);
 
   function renderComponents() {
     switch (selectedComponent) {

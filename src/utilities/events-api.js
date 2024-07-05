@@ -5,12 +5,12 @@ export async function getAllEvents() {
   return sendRequest(`${BASE_URL}/`);
 }
 
-export async function createEvents(blogFeed) {
-  return sendRequest(`${BASE_URL}/`, "POST", blogFeed);
+export async function createEvent(event) {
+  return sendRequest(`${BASE_URL}/`, "POST", event);
 }
 
-export async function updateEvent(id, blogFeed) {
-  return sendRequest(`${BASE_URL}/${id}`, "PUT", blogFeed);
+export async function updateEvent(id, event) {
+  return sendRequest(`${BASE_URL}/${id}`, "PUT", event);
 }
 
 export async function deleteEvent(id) {
