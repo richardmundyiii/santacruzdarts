@@ -10,6 +10,11 @@
       "StackName": "amplify-santacruzdarts-dev-277d7",
       "StackId": "arn:aws:cloudformation:us-west-1:381491897900:stack/amplify-santacruzdarts-dev-277d7/86f6ca10-3fd1-11ef-b395-06f385e625a7",
       "AmplifyAppId": "d34xj767v80hvp"
+    },
+    "categories": {
+      "auth": {
+        "santacruzdartsd2fd8eb8": {}
+      }
     }
   }
 }

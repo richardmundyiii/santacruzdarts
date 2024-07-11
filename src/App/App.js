@@ -4,6 +4,7 @@ import HomePage from "../pages/HomePage/HomePage";
 import Footer from "../components/Footer/Footer";
 import AdminPage from "../pages/AdminPage/AdminPage";
 import "./App.css";
+import AuthPage from "../pages/AuthPage/AuthPage";
 
 function App() {
   const location = useLocation();
@@ -17,6 +18,7 @@ function App() {
       {handleRenderNav() && <NavBar />}
       <Routes>
         <Route path="/" element={<HomePage />} />
+        <Route path="/auth" element={<AuthPage />} />
         <Route path="/admin" element={<AdminPage />} />
       </Routes>
       {handleRenderNav() && <Footer />}
