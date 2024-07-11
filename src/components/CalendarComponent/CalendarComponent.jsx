@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+import { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchEvents } from "../../features/eventSlice";
 import {
   format,
   addMonths,
@@ -23,24 +25,18 @@ import {
 } from "@mui/material";
 import { ArrowBack, ArrowForward } from "@mui/icons-material";
 
-const eventsData = [
-  {
-    date: "2024-07-01",
-    name: "Summer Event",
-    info: "Details about event 1...",
-  },
-  { date: "2024-07-15", name: "Event 2", info: "Details about event 2..." },
-  { date: "2024-08-05", name: "Event 3", info: "Details about event 3..." },
-  { date: "2024-09-10", name: "Event 4", info: "Details about event 4..." },
-  { date: "2024-10-22", name: "Event 5", info: "Details about event 5..." },
-  { date: "2024-11-18", name: "Event 6", info: "Details about event 6..." },
-  { date: "2024-12-25", name: "Event 7", info: "Details about event 7..." },
-  { date: "2025-01-01", name: "Event 8", info: "Details about event 8..." },
-  { date: "2025-02-14", name: "Event 9", info: "Details about event 9..." },
-  { date: "2025-03-17", name: "Event 10", info: "Details about event 10..." },
-];
-
 export default function CalendarComponent() {
+  const dispatch = useDispatch();
+  const events = useSelector((state) => state.events.events);
+  const status = useSelector((state) => state.events.status);
+  const error = useSelector((state) => state.events.error);
+
+  useEffect(() => {
+    if (status === "idle") {
+      dispatch(fetchEvents());
+    }
+  }, [status, dispatch]);
+
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [open, setOpen] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState(null);
@@ -108,9 +104,28 @@ export default function CalendarComponent() {
       for (let i = 0; i < 7; i++) {
         formattedDate = format(day, "d");
         const cloneDay = day;
-        const eventForDay = eventsData.find((event) =>
-          isSameDay(parseISO(event.date), cloneDay)
-        );
+
+        // Ensure events are being processed correctly
+        console.log("Current Date:", cloneDay);
+        console.log("Events:", events);
+
+        const eventForDay = events.find((event) => {
+          console.log("Processing event:", event);
+          if (typeof event.date === "string") {
+            try {
+              const parsedDate = parseISO(event.date);
+              console.log("Parsed Date:", parsedDate);
+              return isSameDay(parsedDate, cloneDay);
+            } catch (error) {
+              console.error("Error parsing date:", event.date, error);
+              return false;
+            }
+          } else {
+            console.error("Invalid date format in event:", event);
+            return false;
+          }
+        });
+
         days.push(
           <Grid item xs={1} key={day} style={{ textAlign: "center" }}>
             <Paper
@@ -130,10 +145,10 @@ export default function CalendarComponent() {
               {eventForDay && (
                 <Typography
                   variant="caption"
-                  key={eventForDay.name}
+                  key={eventForDay._id}
                   style={{ color: "#fff" }}
                 >
-                  {eventForDay.name}
+                  {eventForDay.title}
                 </Typography>
               )}
             </Paper>
@@ -190,12 +205,14 @@ export default function CalendarComponent() {
           {selectedEvent && (
             <>
               <Typography id="event-modal-title" variant="h6" component="h2">
-                {selectedEvent.name}
+                {selectedEvent.title}
               </Typography>
               <Typography id="event-modal-description" sx={{ mt: 2 }}>
-                {selectedEvent.info}
+                {selectedEvent.details}
               </Typography>
-              <Typography sx={{ mt: 2 }}>Date: {selectedEvent.date}</Typography>
+              <Typography sx={{ mt: 2 }}>
+                Date: {format(parseISO(selectedEvent.date), "yyyy-MM-dd")}
+              </Typography>
             </>
           )}
         </Box>
